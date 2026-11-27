@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mail-Labels</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <link rel="stylesheet" href="taskpane.css">
+</head>
+<body>
+  <header>
+    <h1>Mail-Labels</h1>
+    <div id="mailbox" class="muted"></div>
+    <button id="btnSettings" class="icon" title="Verbindung einstellen" aria-label="Verbindung einstellen">⚙</button>
+  </header>
+
+  <div id="status" class="status hidden" role="status"></div>
+
+  <!-- Verbindung -->
+  <section id="viewSettings" class="hidden">
+    <h2>Verbindung zu n8n</h2>
+    <label>Webhook-URL
+      <input id="setUrl" type="url" placeholder="https://n8n.cpronect.de/webhook/mail-labels">
+    </label>
+    <label>API-Key
+      <input id="setKey" type="password" autocomplete="off" placeholder="Wert aus der n8n-Credential 'Mail-Labels API-Key'">
+    </label>
+    <p class="muted small">Wird nur in deinem Postfach gespeichert (Outlook roaming settings).</p>
+    <div class="row">
+      <button id="btnSaveSettings" class="primary">Speichern</button>
+      <button id="btnCancelSettings">Abbrechen</button>
+    </div>
+  </section>
+
+  <!-- Liste -->
+  <section id="viewList">
+    <div class="hint">
+      <strong>Tipp:</strong> Die Klassifizierung ist nur so gut wie deine Label-Beschreibungen.
+      Beschreibe, <em>was</em> eine Mail zu diesem Label macht, und auch, was <em>nicht</em> dazugehört.
+      Typische Begriffe, Abkürzungen oder Nummernmuster helfen zusätzlich.
+    </div>
+
+    <div class="row between">
+      <h2>Deine Labels</h2>
+      <button id="btnNew" class="primary">+ Neues Label</button>
+    </div>
+    <ul id="labelList" class="labels"></ul>
+    <p class="muted small">Immer vorhanden: <b>Sonstiges</b> (Fallback), <b>Prüfen</b> (unsicher, confidence &lt; 0,6) und <b>AI-klassifiziert</b> (Marker).</p>
+
+    <div id="testBox" class="card">
+      <h2>An dieser Mail testen</h2>
+      <p class="muted small">Klassifiziert die geöffnete Mail mit deinen aktuellen Labels. Es werden keine Kategorien gesetzt.</p>
+      <button id="btnTest">Jetzt testen</button>
+      <div id="testResult" class="hidden"></div>
+    </div>
+  </section>
+
+  <!-- Formular -->
+  <section id="viewForm" class="hidden">
+    <h2 id="formTitle">Neues Label</h2>
+    <label>Name *
+      <input id="fName" maxlength="60" placeholder="z. B. Retoure">
+    </label>
+    <p id="renameNote" class="muted small hidden">Hinweis: Bereits getaggte Mails behalten den alten Namen als Kategorie. Neue Mails bekommen den neuen Namen.</p>
+
+    <label>Beschreibung
+      <textarea id="fBeschreibung" rows="5" placeholder="Was gehört dazu? Was gehört NICHT dazu?&#10;z. B.: Ein Kunde meldet eine Rücksendung oder Reklamation. NICHT darunter fällt eine Gutschrift als Rechnungsdokument."></textarea>
+    </label>
+    <div id="qualityHint" class="quality"></div>
+
+    <label>Beispiele / typische Begriffe
+      <textarea id="fBeispiele" rows="3" placeholder="z. B.: Retoure, RMA, Rücksendung, Reklamation, Ware defekt"></textarea>
+    </label>
+
+    <div class="row">
+      <label class="grow">Farbe
+        <select id="fFarbe"></select>
+      </label>
+      <span id="colorPreview" class="dot big"></span>
+    </div>
+
+    <label class="check"><input id="fAktiv" type="checkbox" checked> Aktiv (wird bei der Klassifizierung verwendet)</label>
+
+    <div class="row">
+      <button id="btnSave" class="primary">Speichern</button>
+      <button id="btnCancel">Abbrechen</button>
+    </div>
+  </section>
+
+  <script src="taskpane.js"></script>
+</body>
+</html>
